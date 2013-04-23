@@ -1,6 +1,5 @@
 package org.aaron.wordscomplete.model;
 
-import org.aaron.wordscomplete.model.scoring.BoardPlacement;
 import org.aaron.wordscomplete.model.scoring.FullBoardPlacement;
 
 /**

@@ -3,7 +3,6 @@ package org.aaron.wordscomplete.solver.filters.wordfilters;
 import org.aaron.wordscomplete.model.Board;
 import org.aaron.wordscomplete.model.Coordinate;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**

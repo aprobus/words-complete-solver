@@ -2,7 +2,6 @@ package org.aaron.wordscomplete.solver;
 
 import org.aaron.wordscomplete.dictionary.Dictionary;
 import org.aaron.wordscomplete.model.*;
-import org.aaron.wordscomplete.model.scoring.BoardPlacement;
 import org.aaron.wordscomplete.model.scoring.FullBoardPlacement;
 import org.aaron.wordscomplete.model.scoring.PartialBoardPlacement;
 import org.aaron.wordscomplete.solver.filters.positionfilters.*;
