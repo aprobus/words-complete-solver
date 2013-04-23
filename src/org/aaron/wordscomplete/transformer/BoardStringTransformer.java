@@ -1,4 +1,4 @@
-package org.aaron.wordscomplete.serialize;
+package org.aaron.wordscomplete.transformer;
 
 import org.aaron.wordscomplete.model.*;
 
@@ -7,11 +7,11 @@ import org.aaron.wordscomplete.model.*;
  * Date: 4/22/13
  * Time: 10:40 PM
  */
-public class BoardSerializer {
+public class BoardStringTransformer {
 
    private static final char EMPTY_TILE_CHAR = '_';
 
-   public static String serialize(Board board) {
+   public static String toString(Board board) {
       StringBuilder builder = new StringBuilder();
 
       for (int row = 0; row < Board.NUM_ROWS; row++) {
@@ -33,7 +33,7 @@ public class BoardSerializer {
       return builder.toString();
    }
 
-   public static Board deserialize(String boardString, BoardType boardType) {
+   public static Board fromString(String boardString, BoardType boardType) {
       if (boardString == null || boardString.length() != Board.NUM_COLUMNS * Board.NUM_ROWS) {
          return null;
       }

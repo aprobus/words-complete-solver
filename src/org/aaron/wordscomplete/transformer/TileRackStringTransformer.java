@@ -1,4 +1,4 @@
-package org.aaron.wordscomplete.serialize;
+package org.aaron.wordscomplete.transformer;
 
 import org.aaron.wordscomplete.model.LetterTile;
 import org.aaron.wordscomplete.model.TileRack;
@@ -11,12 +11,12 @@ import java.util.List;
  * Date: 4/22/13
  * Time: 10:27 PM
  */
-public class TileRackSerializer {
+public class TileRackStringTransformer {
 
    private static final char BLANK_TILE_CHAR = '_';
    private static final int MAX_TILES = 7;
 
-   public static String serialize(TileRack tileRack) {
+   public static String toString(TileRack tileRack) {
       StringBuilder builder = new StringBuilder();
 
       for (LetterTile tile : tileRack.getLetterTiles()) {
@@ -30,7 +30,7 @@ public class TileRackSerializer {
       return builder.toString();
    }
 
-   public static TileRack deserialize(String tileRackString) {
+   public static TileRack fromString(String tileRackString) {
       if (tileRackString == null || tileRackString.length() == 0 || tileRackString.length() > MAX_TILES) {
          return null;
       }
