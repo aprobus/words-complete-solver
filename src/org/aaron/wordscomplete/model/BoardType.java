@@ -8,5 +8,21 @@ package org.aaron.wordscomplete.model;
 public enum BoardType {
    Scrabble,
    WordsWithFriends,
-   Unknown
+   Unknown;
+
+   public static BoardType fromString(String boardType) {
+      if (boardType == null) {
+         return Unknown;
+      }
+
+      boardType = boardType.toLowerCase();
+
+      if (boardType.equals("scrabble")) {
+            return Scrabble;
+      } else if (boardType.equals("wordswithfriends")) {
+         return WordsWithFriends;
+      } else {
+         return Unknown;
+      }
+   }
 }

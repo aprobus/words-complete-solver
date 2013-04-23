@@ -28,13 +28,13 @@ public class LowMemoryBoardSolver extends BoardSolver {
    private WordFilter[] mWordFilters;
    private PositionFilter[] mPositionFilters;
 
-   public LowMemoryBoardSolver(Board board, Dictionary dictionary) {
-      super(board, dictionary);
+   public LowMemoryBoardSolver(Board board, TileRack tileRack, Dictionary dictionary) {
+      super(board, tileRack, dictionary);
 
       ExistingTilePositionFilter existingTilePositionFilter = new ExistingTilePositionFilter();
       FullPositionFilter fullPositionFilter = new FullPositionFilter();
       PrePostTilePositionFilter prePostTilePositionFilter = new PrePostTilePositionFilter();
-      SecondaryWordPositionFilter secondaryWordPositionFilter = new SecondaryWordPositionFilter(mBoard, mDictionary);
+      SecondaryWordPositionFilter secondaryWordPositionFilter = new SecondaryWordPositionFilter(getBoard(), tileRack, getDictionary());
 
       mPositionFilters = new PositionFilter[4];
       mPositionFilters[0] = existingTilePositionFilter;
@@ -43,8 +43,8 @@ public class LowMemoryBoardSolver extends BoardSolver {
       mPositionFilters[3] = secondaryWordPositionFilter;
 
       ExistingTilesFilter existingTilesFilter = new ExistingTilesFilter();
-      TileRackFilter tileRackFilter = new TileRackFilter(board.getTileRack());
-      SecondaryWordFilter secondaryWordFilter = new SecondaryWordFilter(mDictionary);
+      TileRackFilter tileRackFilter = new TileRackFilter(tileRack);
+      SecondaryWordFilter secondaryWordFilter = new SecondaryWordFilter(getDictionary());
 
       mWordFilters = new WordFilter[3];
       mWordFilters[0] = existingTilesFilter;
@@ -66,7 +66,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
                continue;
             }
 
-            Iterator<String> wordIterator = mDictionary.getWordsForLengthIterator(WORD_SIZES[i]);
+            Iterator<String> wordIterator = getDictionary().getWordsForLengthIterator(WORD_SIZES[i]);
 
             while (wordIterator.hasNext()) {
                String word = wordIterator.next();
@@ -83,7 +83,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
 
    public boolean areAllPositionFiltersValid(List<Coordinate> coordinates) {
       for (PositionFilter filter : mPositionFilters) {
-         if (!filter.isValidPosition(mBoard, coordinates)) {
+         if (!filter.isValidPosition(getBoard(), coordinates)) {
             return false;
          }
       }
@@ -93,7 +93,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
 
    public boolean areAllWordFiltersValid(List<Coordinate> coordinates, String word) {
       for (WordFilter filter : mWordFilters) {
-         if (!filter.isValidWord(mBoard, word, coordinates)) {
+         if (!filter.isValidWord(getBoard(), word, coordinates)) {
             return false;
          }
       }
@@ -111,9 +111,9 @@ public class LowMemoryBoardSolver extends BoardSolver {
       List<PlacedTile> placedTiles = new LinkedList<PlacedTile>();
       List<PartialBoardPlacement> secondaryPlacements = new LinkedList<PartialBoardPlacement>();
       boolean[] usedTiles = new boolean[7];
-      List<LetterTile> letterTiles = mBoard.getTileRack().getLetterTiles();
+      List<LetterTile> letterTiles = getTileRack().getLetterTiles();
       for (int i = 0; i < coordinates.size(); i++) {
-         LetterTile letterTile = mBoard.getTile(coordinates.get(i));
+         LetterTile letterTile = getBoard().getTile(coordinates.get(i));
          if (letterTile != null) {
             existingTiles.add(letterTile);
          } else {
@@ -129,16 +129,16 @@ public class LowMemoryBoardSolver extends BoardSolver {
       }
 
       FullBoardPlacement placement = new FullBoardPlacement(placedTiles, existingTiles, word, secondaryPlacements);
-      int score = mBoard.getScore(placement);
+      int score = getBoard().getScore(placement);
 
       BoardSolution solution = new BoardSolution(word, score, placedTiles);
       return solution;
    }
 
    private PartialBoardPlacement getSecondaryBoardPlacement(Coordinate coordinate, boolean isLeftToRight, PlacedTile placedTile) {
-      if (isLeftToRight && !(mBoard.hasTile(coordinate.row - 1, coordinate.column) || mBoard.hasTile(coordinate.row + 1, coordinate.column))) {
+      if (isLeftToRight && !(getBoard().hasTile(coordinate.row - 1, coordinate.column) || getBoard().hasTile(coordinate.row + 1, coordinate.column))) {
          return null;
-      } else if (!isLeftToRight && !(mBoard.hasTile(coordinate.row, coordinate.column - 1) || mBoard.hasTile(coordinate.row, coordinate.column + 1))) {
+      } else if (!isLeftToRight && !(getBoard().hasTile(coordinate.row, coordinate.column - 1) || getBoard().hasTile(coordinate.row, coordinate.column + 1))) {
          return null;
       }
 
@@ -148,7 +148,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
       int currentRow = coordinate.row;
       int currentColumn = coordinate.column;
 
-      while (mBoard.hasTile(currentRow - rowIncrementer, currentColumn - columnIncrementer)) {
+      while (getBoard().hasTile(currentRow - rowIncrementer, currentColumn - columnIncrementer)) {
          currentRow -= rowIncrementer;
          currentColumn -= columnIncrementer;
       }
@@ -156,8 +156,8 @@ public class LowMemoryBoardSolver extends BoardSolver {
       List<LetterTile> existingTiles = new LinkedList<LetterTile>();
       boolean hasEncounteredPlacedTile = false;
 
-      while (mBoard.hasTile(currentRow, currentColumn) || !hasEncounteredPlacedTile) {
-         LetterTile letterTile = mBoard.getTile(currentRow, currentColumn);
+      while (getBoard().hasTile(currentRow, currentColumn) || !hasEncounteredPlacedTile) {
+         LetterTile letterTile = getBoard().getTile(currentRow, currentColumn);
 
          if (letterTile == null) {
             hasEncounteredPlacedTile = true;

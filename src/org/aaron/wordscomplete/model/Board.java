@@ -15,8 +15,6 @@ public abstract class Board {
    public static final int NUM_ROWS = 15;
    public static final int NUM_COLUMNS = 15;
 
-   private TileRack tileRack;
-
    public Board () {
       board = new BoardTile[NUM_COLUMNS][NUM_ROWS];
 
@@ -30,14 +28,6 @@ public abstract class Board {
    public abstract int getScore(FullBoardPlacement placementToScore);
 
    public abstract BoardType getBoardType();
-
-   public TileRack getTileRack() {
-      return tileRack;
-   }
-
-   public void setTileRack(TileRack tileRack) {
-      this.tileRack = tileRack;
-   }
 
    public boolean hasTile (int row, int column) {
       if (row < 0 || column < 0 || row >= NUM_ROWS || column >= NUM_COLUMNS) {

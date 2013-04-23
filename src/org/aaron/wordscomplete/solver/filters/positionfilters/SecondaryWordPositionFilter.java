@@ -3,6 +3,7 @@ package org.aaron.wordscomplete.solver.filters.positionfilters;
 import org.aaron.wordscomplete.dictionary.Dictionary;
 import org.aaron.wordscomplete.model.Board;
 import org.aaron.wordscomplete.model.Coordinate;
+import org.aaron.wordscomplete.model.TileRack;
 
 import java.util.List;
 
@@ -18,14 +19,14 @@ public class SecondaryWordPositionFilter extends PositionFilter {
 
    private byte[] mValidPositionFlags;
 
-   public SecondaryWordPositionFilter(Board board, Dictionary dictionary) {
+   public SecondaryWordPositionFilter(Board board, TileRack tileRack, Dictionary dictionary) {
       mValidPositionFlags = new byte[Board.NUM_COLUMNS * Board.NUM_ROWS];
 
       for (int i = 0; i < mValidPositionFlags.length; i++) {
          mValidPositionFlags[i] = 0;
       }
 
-      initializeFlags(board, dictionary);
+      initializeFlags(board, tileRack, dictionary);
    }
 
    @Override
@@ -57,13 +58,13 @@ public class SecondaryWordPositionFilter extends PositionFilter {
       mValidPositionFlags[row * Board.NUM_ROWS + column] |= flag;
    }
 
-   private void initializeFlags(Board board, Dictionary dictionary) {
+   private void initializeFlags(Board board, TileRack tileRack, Dictionary dictionary) {
       for (int row = 0; row < Board.NUM_ROWS; row++) {
          for (int column = 0; column < Board.NUM_COLUMNS; column++) {
             if (board.hasTile(row, column)) {
                initializeTileFlags(row, column);
             } else {
-               initializeEmptyTileFlags(board, row, column, dictionary);
+               initializeEmptyTileFlags(board, tileRack, row, column, dictionary);
             }
          }
       }
@@ -74,7 +75,7 @@ public class SecondaryWordPositionFilter extends PositionFilter {
       setFlagForLoc(row, column, maskValidBothWays);
    }
 
-   private void initializeEmptyTileFlags(Board board, int row, int column, Dictionary dictionary) {
+   private void initializeEmptyTileFlags(Board board, TileRack tileRack, int row, int column, Dictionary dictionary) {
       //Check hori -> Lay tiles horizontally and check vertical words formed
       String prefix = null;
       String suffix = null;
@@ -91,7 +92,7 @@ public class SecondaryWordPositionFilter extends PositionFilter {
 
       if (prefix == null && suffix == null) {
          setFlagForLoc(row, column, VALID_HORI_FLAG);
-      } else if (dictionary.hasWordForWildCard(prefix, board.getTileRack(), suffix)) {
+      } else if (dictionary.hasWordForWildCard(prefix, tileRack, suffix)) {
          setFlagForLoc(row, column, VALID_HORI_FLAG);
       }
 
@@ -111,7 +112,7 @@ public class SecondaryWordPositionFilter extends PositionFilter {
 
       if (prefix == null && suffix == null) {
          setFlagForLoc(row, column, VALID_VERT_FLAG);
-      } else if (dictionary.hasWordForWildCard(prefix, board.getTileRack(), suffix)) {
+      } else if (dictionary.hasWordForWildCard(prefix, tileRack, suffix)) {
          setFlagForLoc(row, column, VALID_VERT_FLAG);
       }
    }
