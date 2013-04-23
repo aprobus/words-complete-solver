@@ -19,6 +19,10 @@ public class LetterTile {
       this(letter, false);
    }
 
+   public LetterTile () {
+      this('a', true);
+   }
+
    public char getLetter() {
       return letter;
    }
