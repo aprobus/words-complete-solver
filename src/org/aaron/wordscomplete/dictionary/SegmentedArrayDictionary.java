@@ -25,7 +25,7 @@ public class SegmentedArrayDictionary implements Dictionary {
    }
 
    @Override
-   public void insertAll(String[] words) {
+   public void setWords(String[] words) {
       for (int i = 0; i < words.length; i++) {
          String word = words[i];
 

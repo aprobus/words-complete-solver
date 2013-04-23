@@ -10,7 +10,7 @@ import java.util.Iterator;
  * Time: 9:40 PM
  */
 public interface Dictionary {
-   public void insertAll(String[] words);
+   public void setWords(String[] words);
    public boolean exists(String word);
    public Iterator<String> getWordsForLengthIterator(int wordSize);
    public boolean hasWordForWildCard(String prefix, TileRack tileRack, String suffix);

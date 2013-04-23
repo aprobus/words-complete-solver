@@ -12,14 +12,13 @@ import java.util.List;
  */
 public class FullBoardPlacement implements BoardPlacement {
 
-   private String word;
    private List<PlacedTile> addedTiles;
    private List<LetterTile> existingTiles;
    private List<PartialBoardPlacement> secondaryPlacements;
 
-   public FullBoardPlacement(List<PlacedTile> addedTiles, List<LetterTile> existingTiles, String word, List<PartialBoardPlacement> secondaryPlacements) {
-
-      this.word = word;
+   public FullBoardPlacement(List<PlacedTile> addedTiles, List<LetterTile> existingTiles, List<PartialBoardPlacement> secondaryPlacements) {
+      this.addedTiles = addedTiles;
+      this.existingTiles = existingTiles;
       this.secondaryPlacements = secondaryPlacements;
    }
 
@@ -37,14 +36,6 @@ public class FullBoardPlacement implements BoardPlacement {
 
    public void setExistingTiles(List<LetterTile> existingTiles) {
       this.existingTiles = existingTiles;
-   }
-
-   public String getWord() {
-      return word;
-   }
-
-   public void setWord(String word) {
-      this.word = word;
    }
 
    public List<PartialBoardPlacement> getSecondaryPlacements() {

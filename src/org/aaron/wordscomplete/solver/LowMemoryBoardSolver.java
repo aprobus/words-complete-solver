@@ -128,7 +128,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
          }
       }
 
-      FullBoardPlacement placement = new FullBoardPlacement(placedTiles, existingTiles, word, secondaryPlacements);
+      FullBoardPlacement placement = new FullBoardPlacement(placedTiles, existingTiles, secondaryPlacements);
       int score = getBoard().getScore(placement);
 
       BoardSolution solution = new BoardSolution(word, score, placedTiles);
