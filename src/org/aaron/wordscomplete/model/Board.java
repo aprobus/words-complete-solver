@@ -76,6 +76,10 @@ public abstract class Board {
       board[column][row].setTile(tile);
    }
 
+   public void setTile(Coordinate coordinate, LetterTile tile) {
+      setTile(coordinate.row, coordinate.column, tile);
+   }
+
    public boolean isEmpty() {
       return isEmpty;
    }

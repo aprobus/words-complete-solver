@@ -28,4 +28,8 @@ public class TileRack {
       return letterTiles;
    }
 
+   public void removeTile(LetterTile letterTile) {
+
+   }
+
 }
