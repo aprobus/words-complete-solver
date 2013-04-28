@@ -19,26 +19,12 @@ public class PositionIterator implements Iterator<List<Coordinate>> {
    private int mCurrentColumn;
    private Direction mDirection;
 
-   private ThreadLocal<ArrayList<Coordinate>> mLocalCoordinateList;
-   private ThreadLocal<ArrayList<Coordinate>> mLocalPreAllocCoordinateList;
-
    public PositionIterator(int wordSize) {
       mWordSize = wordSize;
 
       mCurrentRow = 0;
       mCurrentColumn = 0;
       mDirection = Direction.Right;
-
-      mLocalCoordinateList = new ThreadLocal<ArrayList<Coordinate>>();
-      mLocalCoordinateList.set(new ArrayList<Coordinate>(16));
-
-      mLocalPreAllocCoordinateList = new ThreadLocal<ArrayList<Coordinate>>();
-      mLocalPreAllocCoordinateList.set(new ArrayList<Coordinate>(16));
-
-      ArrayList<Coordinate> preallocCoordinates = mLocalPreAllocCoordinateList.get();
-      for (int i = 0; i < 16; i++) {
-         preallocCoordinates.add(new Coordinate(1, 1));
-      }
    }
 
    @Override
@@ -52,18 +38,13 @@ public class PositionIterator implements Iterator<List<Coordinate>> {
 
    @Override
    public List<Coordinate> next() {
-      List<Coordinate> coordinates = mLocalCoordinateList.get();
-      coordinates.clear();
-
-      ArrayList<Coordinate> preallocCoordinates = mLocalPreAllocCoordinateList.get();
+      List<Coordinate> coordinates = new ArrayList<Coordinate>(15);
 
       for (int i = 0; i < mWordSize; i++) {
          if (mDirection == Direction.Right) {
-            //coordinates.add(new Coordinate(mCurrentRow, mCurrentColumn + i));
-            coordinates.add(preallocCoordinates.get(i).setCoordinate(mCurrentRow, mCurrentColumn + i));
+            coordinates.add(new Coordinate(mCurrentRow, mCurrentColumn + i));
          } else {
-            //coordinates.add(new Coordinate(mCurrentRow + i, mCurrentColumn));
-            coordinates.add(preallocCoordinates.get(i).setCoordinate(mCurrentRow + i, mCurrentColumn));
+            coordinates.add(new Coordinate(mCurrentRow + i, mCurrentColumn));
          }
       }
 

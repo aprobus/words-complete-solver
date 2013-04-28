@@ -22,9 +22,6 @@ import java.util.List;
 public class LowMemoryBoardSolver extends BoardSolver {
    private static final int[] WORD_SIZES = new int[]{ 2, 5, 14, 15, 4, 12, 13, 6, 11, 7, 10, 8, 3, 9 };
 
-   private static final int[] EXPENSIVE_WORD_SIZES = new int[]{ 2, 3, 9, 10, 11, 12, 13, 14, 15 };
-   private static final int[] CHEAP_WORD_SIZES = new int[]{ 4, 5, 6, 7, 8 };
-
    private WordFilter[] mWordFilters;
    private PositionFilter[] mPositionFilters;
 
@@ -72,7 +69,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
                String word = wordIterator.next();
 
                if (areAllWordFiltersValid(coordinates, word)) {
-                  solutions.add(createBoardPlacement(word, coordinates));
+                  solutions.add(createBoardSolution(word, coordinates));
                }
             }
          }
@@ -101,7 +98,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
       return true;
    }
 
-   private BoardSolution createBoardPlacement(String word, List<Coordinate> coordinates) {
+   private BoardSolution createBoardSolution(String word, List<Coordinate> coordinates) {
       boolean isLeftToRight = true;
       if (coordinates.get(0).row < coordinates.get(1).row) {
          isLeftToRight = false;

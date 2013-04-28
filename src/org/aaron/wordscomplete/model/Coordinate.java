@@ -15,6 +15,11 @@ public class Coordinate {
       this.column = column;
    }
 
+   public Coordinate(Coordinate coordinate) {
+      this.row = coordinate.row;
+      this.column = coordinate.column;
+   }
+
    public Coordinate() {
       this(-1, -1);
    }
@@ -51,6 +56,11 @@ public class Coordinate {
    @Override
    public int hashCode() {
       return row + column;
+   }
+
+   @Override
+   public String toString() {
+      return "(" + row + ", " + column + ")";
    }
 
 }
