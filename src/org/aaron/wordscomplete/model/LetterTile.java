@@ -39,4 +39,20 @@ public class LetterTile {
       this.isBlank = isBlank;
    }
 
+   @Override
+   public boolean equals(Object obj) {
+      if (!(obj instanceof LetterTile)) {
+         return false;
+      }
+
+      LetterTile otherTile = (LetterTile)obj;
+
+      return letter == otherTile.letter && isBlank == otherTile.isBlank;
+   }
+
+   @Override
+   public int hashCode() {
+      return letter;
+   }
+
 }

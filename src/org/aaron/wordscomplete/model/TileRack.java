@@ -29,7 +29,18 @@ public class TileRack {
    }
 
    public void removeTile(LetterTile letterTile) {
+      List<LetterTile> newLetterTiles = new LinkedList<LetterTile>();
+      boolean hasRemovedTile = false;
 
+      for (LetterTile tile : letterTiles) {
+         if (!hasRemovedTile && tile.equals(letterTile)) {
+            continue;
+         }
+
+         newLetterTiles.add(tile);
+      }
+
+      letterTiles = newLetterTiles;
    }
 
 }
