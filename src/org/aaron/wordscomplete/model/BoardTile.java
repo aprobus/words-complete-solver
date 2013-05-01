@@ -31,10 +31,6 @@ public class BoardTile {
       return tile;
    }
 
-   public void setScoreBonus (Board.ScoreBonus bonus) {
-      this.bonus = bonus;
-   }
-
    public Board.ScoreBonus getScoreBonus () {
       return bonus;
    }

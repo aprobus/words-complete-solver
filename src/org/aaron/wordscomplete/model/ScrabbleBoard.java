@@ -46,17 +46,12 @@ public class ScrabbleBoard extends Board {
       letterScores.put('z', 10);
    }
 
-   ScrabbleBoard () {
+   protected ScrabbleBoard() {
       super();
-
-      for (int row = 0; row < NUM_ROWS; row++) {
-         for (int column = 0; column < NUM_COLUMNS; column++) {
-            board[column][row].setScoreBonus(this.getScoreBonus(row, column));
-         }
-      }
    }
 
-   private ScoreBonus getScoreBonus (int row, int column) {
+   @Override
+   protected ScoreBonus getScoreBonusForCoordinate (int row, int column) {
       int transRow = row > 7 ? 14 - row : row;
       int transColumn = column > 7 ? 14 - column : column;
 

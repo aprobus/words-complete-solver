@@ -11,6 +11,14 @@ public class LetterTile {
       return new LetterTile('a', true);
    }
 
+   public static LetterTile newBlankTileWithLetter(char letter) {
+      return new LetterTile(letter, true);
+   }
+
+   public static LetterTile newTile(char letter) {
+      return new LetterTile(letter, false);
+   }
+
    private char letter;
    private boolean isBlank = true;
 
@@ -31,16 +39,8 @@ public class LetterTile {
       return letter;
    }
 
-   public void setLetter (char letter) {
-      this.letter = letter;
-   }
-
    public boolean isBlank() {
       return isBlank;
-   }
-
-   public void setBlank(boolean isBlank) {
-      this.isBlank = isBlank;
    }
 
    @Override
@@ -51,7 +51,11 @@ public class LetterTile {
 
       LetterTile otherTile = (LetterTile)obj;
 
-      return letter == otherTile.letter && isBlank == otherTile.isBlank;
+      if (isBlank && otherTile.isBlank) {
+         return true;
+      } else {
+         return letter == otherTile.letter && isBlank == otherTile.isBlank;
+      }
    }
 
    @Override

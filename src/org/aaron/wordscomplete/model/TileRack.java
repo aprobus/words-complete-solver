@@ -18,10 +18,7 @@ public class TileRack {
 
    public TileRack (List<LetterTile> tiles) {
       letterTiles = new LinkedList<LetterTile>();
-
-      for (LetterTile tile : tiles) {
-         this.letterTiles.add(tile);
-      }
+      letterTiles.addAll(tiles);
    }
 
    public List<LetterTile> getLetterTiles () {
@@ -34,6 +31,7 @@ public class TileRack {
 
       for (LetterTile tile : letterTiles) {
          if (!hasRemovedTile && tile.equals(letterTile)) {
+            hasRemovedTile = true;
             continue;
          }
 
