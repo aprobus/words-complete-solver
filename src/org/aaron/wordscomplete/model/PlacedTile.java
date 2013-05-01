@@ -21,7 +21,7 @@ public class PlacedTile {
 
    public void setPlacedTile (LetterTile tile, int row, int column) {
       this.tile = tile;
-      this.coordinate = new Coordinate(row, column);
+      this.coordinate = Coordinate.newCoordinate(row, column);
    }
 
    public Coordinate getCoordinate () {

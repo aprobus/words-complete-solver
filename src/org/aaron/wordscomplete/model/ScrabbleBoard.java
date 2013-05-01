@@ -46,7 +46,7 @@ public class ScrabbleBoard extends Board {
       letterScores.put('z', 10);
    }
 
-   public ScrabbleBoard () {
+   ScrabbleBoard () {
       super();
 
       for (int row = 0; row < NUM_ROWS; row++) {

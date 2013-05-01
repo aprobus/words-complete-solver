@@ -31,7 +31,7 @@ public class SecondaryWordPositionFilter extends PositionFilter {
 
    @Override
    public boolean isValidPosition(Board board, List<Coordinate> coordinates) {
-      boolean isHori = coordinates.get(0).column < coordinates.get(1).column;
+      boolean isHori = coordinates.get(0).getColumn() < coordinates.get(1).getColumn();
 
       for (int i = 0; i < coordinates.size(); i++) {
          Coordinate coordinate = coordinates.get(i);
@@ -47,11 +47,11 @@ public class SecondaryWordPositionFilter extends PositionFilter {
    }
 
    private boolean isValidHori(Coordinate coordinate) {
-      return (mValidPositionFlags[coordinate.row * Board.NUM_ROWS + coordinate.column] & VALID_HORI_FLAG) > 0;
+      return (mValidPositionFlags[coordinate.getRow() * Board.NUM_ROWS + coordinate.getColumn()] & VALID_HORI_FLAG) > 0;
    }
 
    private boolean isValidVert(Coordinate coordinate) {
-      return (mValidPositionFlags[coordinate.row * Board.NUM_ROWS + coordinate.column] & VALID_VERT_FLAG) > 0;
+      return (mValidPositionFlags[coordinate.getRow() * Board.NUM_ROWS + coordinate.getColumn()] & VALID_VERT_FLAG) > 0;
    }
 
    private void setFlagForLoc(int row, int column, byte flag) {

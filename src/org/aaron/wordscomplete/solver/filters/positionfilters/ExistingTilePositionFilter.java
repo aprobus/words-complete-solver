@@ -16,7 +16,7 @@ public class ExistingTilePositionFilter extends PositionFilter {
       Coordinate firstCoord = coordinates.get(0);
       Coordinate lastCoord = coordinates.get(coordinates.size() - 1);
 
-      boolean isLeftToRight = lastCoord.column > firstCoord.column;
+      boolean isLeftToRight = lastCoord.getColumn() > firstCoord.getColumn();
 
       for (int i = 0; i < coordinates.size(); i++) {
          Coordinate coordinate = coordinates.get(i);
@@ -24,21 +24,21 @@ public class ExistingTilePositionFilter extends PositionFilter {
          if (board.hasTile(coordinate)) {
             return true;
          } else if (isLeftToRight) {
-            if (coordinate.row - 1 >= 0 && board.hasTile(coordinate.row - 1, coordinate.column)) {
+            if (coordinate.getRow() - 1 >= 0 && board.hasTile(coordinate.getRow() - 1, coordinate.getColumn())) {
                return true;
-            } else if (coordinate.row + 1 < Board.NUM_ROWS && board.hasTile(coordinate.row + 1, coordinate.column)) {
+            } else if (coordinate.getRow() + 1 < Board.NUM_ROWS && board.hasTile(coordinate.getRow() + 1, coordinate.getColumn())) {
                return true;
             }
          } else {
-            if (coordinate.column - 1 >= 0 && board.hasTile(coordinate.row, coordinate.column - 1)) {
+            if (coordinate.getColumn() - 1 >= 0 && board.hasTile(coordinate.getRow(), coordinate.getColumn() - 1)) {
                return true;
-            } else if (coordinate.column + 1 < Board.NUM_COLUMNS && board.hasTile(coordinate.row, coordinate.column + 1)) {
+            } else if (coordinate.getColumn() + 1 < Board.NUM_COLUMNS && board.hasTile(coordinate.getRow(), coordinate.getColumn() + 1)) {
                return true;
             }
          }
       }
 
-      boolean isFirstPlayOfGame = firstCoord.row == 7 && lastCoord.row == 7 && firstCoord.column <= 7 && lastCoord.column >= 7;
+      boolean isFirstPlayOfGame = firstCoord.getRow() == 7 && lastCoord.getRow() == 7 && firstCoord.getColumn() <= 7 && lastCoord.getColumn() >= 7;
       return isFirstPlayOfGame;
    }
 }

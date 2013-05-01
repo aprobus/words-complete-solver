@@ -15,7 +15,7 @@ import org.junit.Test;
 public class BoardStringTransformerTest {
    @Test
    public void testBlank() throws Exception {
-      Board board = new ScrabbleBoard();
+      Board board = Board.ofType(BoardType.Scrabble);
       board.setTile(4, 5, new LetterTile('b', true));
       board.setTile(6, 9, new LetterTile('d'));
 

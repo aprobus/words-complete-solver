@@ -42,9 +42,9 @@ public class PositionIterator implements Iterator<List<Coordinate>> {
 
       for (int i = 0; i < mWordSize; i++) {
          if (mDirection == Direction.Right) {
-            coordinates.add(new Coordinate(mCurrentRow, mCurrentColumn + i));
+            coordinates.add(Coordinate.newCoordinate(mCurrentRow, mCurrentColumn + i));
          } else {
-            coordinates.add(new Coordinate(mCurrentRow + i, mCurrentColumn));
+            coordinates.add(Coordinate.newCoordinate(mCurrentRow + i, mCurrentColumn));
          }
       }
 

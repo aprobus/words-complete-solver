@@ -21,7 +21,7 @@ public class SecondaryWordFilter extends WordFilter<Dictionary> {
    public boolean isValidWord(Board board, String word, List<Coordinate> coordinates) {
       Direction placementDirection = Direction.Down;
 
-      if (coordinates.get(0).column < coordinates.get(1).column) {
+      if (coordinates.get(0).getColumn() < coordinates.get(1).getColumn()) {
          placementDirection = Direction.Right;
       }
 
@@ -41,12 +41,12 @@ public class SecondaryWordFilter extends WordFilter<Dictionary> {
       }
 
       if (direction == Direction.Right &&
-            ((coordinate.row - 1 >= 0 && board.hasTile(coordinate.row - 1, coordinate.column)) ||
-            (coordinate.row + 1 < Board.NUM_ROWS && board.hasTile(coordinate.row + 1, coordinate.column)))) {
+            ((coordinate.getRow() - 1 >= 0 && board.hasTile(coordinate.getRow() - 1, coordinate.getColumn())) ||
+            (coordinate.getRow() + 1 < Board.NUM_ROWS && board.hasTile(coordinate.getRow() + 1, coordinate.getColumn())))) {
          return true;
       } if (direction == Direction.Down &&
-            ((coordinate.column - 1 >= 0 && board.hasTile(coordinate.row, coordinate.column - 1)) ||
-                  (coordinate.column + 1 < Board.NUM_COLUMNS && board.hasTile(coordinate.row, coordinate.column + 1)))) {
+            ((coordinate.getColumn() - 1 >= 0 && board.hasTile(coordinate.getRow(), coordinate.getColumn() - 1)) ||
+                  (coordinate.getColumn() + 1 < Board.NUM_COLUMNS && board.hasTile(coordinate.getRow(), coordinate.getColumn() + 1)))) {
          return true;
       }
 
@@ -54,8 +54,8 @@ public class SecondaryWordFilter extends WordFilter<Dictionary> {
    }
 
    private boolean isValidSecondaryWord(Board board, Coordinate coordinate, char letterPlaced, Direction direction) {
-      int row = coordinate.row;
-      int column = coordinate.column;
+      int row = coordinate.getRow();
+      int column = coordinate.getColumn();
 
       if (direction == Direction.Right) {
          while (row - 1 >= 0 && board.hasTile(row - 1, column)) {
@@ -68,8 +68,8 @@ public class SecondaryWordFilter extends WordFilter<Dictionary> {
       }
 
       StringBuilder wordFormed = new StringBuilder();
-      while (board.hasTile(row, column) || (row == coordinate.row && column == coordinate.column)) {
-         if (row == coordinate.row && column == coordinate.column) {
+      while (board.hasTile(row, column) || (row == coordinate.getRow() && column == coordinate.getColumn())) {
+         if (row == coordinate.getRow() && column == coordinate.getColumn()) {
             wordFormed.append(letterPlaced);
          } else {
             wordFormed.append(board.getBoardTile(row, column).getTile().getLetter());

@@ -46,7 +46,7 @@ public class WordsWithFriendsBoard extends Board {
       letterScores.put('z', 10);
    }
 
-   public WordsWithFriendsBoard () {
+   WordsWithFriendsBoard () {
       super();
 
       for (int row = 0; row < NUM_ROWS; row++) {

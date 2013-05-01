@@ -15,13 +15,24 @@ public abstract class Board {
    public static final int NUM_ROWS = 15;
    public static final int NUM_COLUMNS = 15;
 
-   public Board () {
+   Board () {
       board = new BoardTile[NUM_COLUMNS][NUM_ROWS];
 
       for (int row = 0; row < NUM_ROWS; row++) {
          for (int column = 0; column < NUM_COLUMNS; column++) {
             board[column][row] = new BoardTile();
          }
+      }
+   }
+
+   public static Board ofType(BoardType boardType) {
+      switch(boardType) {
+         case Scrabble:
+            return new ScrabbleBoard();
+         case WordsWithFriends:
+            return new WordsWithFriendsBoard();
+         default:
+            throw new IllegalArgumentException("Illegal board type: " + boardType.toString());
       }
    }
 
@@ -46,7 +57,7 @@ public abstract class Board {
    }
 
    public boolean hasTile(Coordinate coordinate) {
-      return hasTile(coordinate.row, coordinate.column);
+      return hasTile(coordinate.getRow(), coordinate.getColumn());
    }
 
    public void clearTile (int row, int column) {
@@ -64,11 +75,11 @@ public abstract class Board {
    }
 
    public BoardTile getBoardTile(Coordinate coordinate) {
-      return getBoardTile(coordinate.row, coordinate.column);
+      return getBoardTile(coordinate.getRow(), coordinate.getColumn());
    }
 
    public LetterTile getTile(Coordinate coordinate) {
-      return getTile(coordinate.row, coordinate.column);
+      return getTile(coordinate.getRow(), coordinate.getColumn());
    }
 
    public void setTile (int row, int column, LetterTile tile) {
@@ -77,7 +88,7 @@ public abstract class Board {
    }
 
    public void setTile(Coordinate coordinate, LetterTile tile) {
-      setTile(coordinate.row, coordinate.column, tile);
+      setTile(coordinate.getRow(), coordinate.getColumn(), tile);
    }
 
    public boolean isEmpty() {

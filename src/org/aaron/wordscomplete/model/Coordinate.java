@@ -1,5 +1,7 @@
 package org.aaron.wordscomplete.model;
 
+import java.util.ArrayList;
+
 /**
  * User: aprobus
  * Date: 4/22/13
@@ -7,21 +9,53 @@ package org.aaron.wordscomplete.model;
  */
 public class Coordinate {
 
-   public int row;
-   public int column;
+   private static Coordinate[] coordinates = new Coordinate[Board.NUM_COLUMNS * Board.NUM_ROWS];
+   private static Coordinate invalidCoordinate = new Coordinate(-1, -1);
 
-   public Coordinate (int row, int column) {
+   private int row;
+   private int column;
+
+   public static Coordinate newCoordinate(int row, int column) {
+      if (!inRange(row, 0, Board.NUM_ROWS) || !inRange(column, 0, Board.NUM_COLUMNS)) {
+         return invalidCoordinate;
+      }
+
+      int index = toIndex(row, column);
+
+      if (coordinates[index] == null) {
+         coordinates[index] = new Coordinate(row, column);
+      }
+
+      return coordinates[index];
+   }
+
+   private static int toIndex(int row, int column) {
+      return row * Board.NUM_COLUMNS + column;
+   }
+
+   private static boolean inRange(int value, int min, int max) {
+      return value >= min && value < max;
+   }
+
+   private Coordinate (int row, int column) {
       this.row = row;
       this.column = column;
    }
 
-   public Coordinate(Coordinate coordinate) {
-      this.row = coordinate.row;
-      this.column = coordinate.column;
+   public int getRow() {
+      return row;
    }
 
-   public Coordinate() {
-      this(-1, -1);
+   public int getColumn() {
+      return column;
+   }
+
+   public Coordinate withRow(int row) {
+      return newCoordinate(row, column);
+   }
+
+   public Coordinate withColumn(int column) {
+      return newCoordinate(row, column);
    }
 
    public boolean isValid() {
@@ -30,17 +64,6 @@ public class Coordinate {
 
    public boolean equalTo(int row, int column) {
       return this.row == row && this.column == column;
-   }
-
-   public Coordinate setCoordinate(int row, int column) {
-      this.row = row;
-      this.column = column;
-      return this;
-   }
-
-   public void setCoordinate(Coordinate coordinate) {
-      this.row = coordinate.row;
-      this.column = coordinate.column;
    }
 
    @Override

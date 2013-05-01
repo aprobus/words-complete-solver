@@ -21,7 +21,7 @@ public class LowMemoryBoardSolverTest {
 
    @Before
    public void setupDictionary() {
-      mBoard = new ScrabbleBoard();
+      mBoard = Board.ofType(BoardType.Scrabble);
 
       mDictionary = new SegmentedArrayDictionary();
 
@@ -44,8 +44,8 @@ public class LowMemoryBoardSolverTest {
       Assert.assertEquals(1, solutions.length);
       Assert.assertEquals("the", solutions[0].getWord());
       Assert.assertEquals(2, solutions[0].getPlacedTiles().size());
-      Assert.assertEquals(new Coordinate(6, 7), solutions[0].getPlacedTiles().get(0).getCoordinate());
-      Assert.assertEquals(new Coordinate(8, 7), solutions[0].getPlacedTiles().get(1).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(6, 7), solutions[0].getPlacedTiles().get(0).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(8, 7), solutions[0].getPlacedTiles().get(1).getCoordinate());
    }
 
    @Test
@@ -62,8 +62,8 @@ public class LowMemoryBoardSolverTest {
       Assert.assertEquals(1, solutions.length);
       Assert.assertEquals("the", solutions[0].getWord());
       Assert.assertEquals(2, solutions[0].getPlacedTiles().size());
-      Assert.assertEquals(new Coordinate(7, 6), solutions[0].getPlacedTiles().get(0).getCoordinate());
-      Assert.assertEquals(new Coordinate(7, 8), solutions[0].getPlacedTiles().get(1).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(7, 6), solutions[0].getPlacedTiles().get(0).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(7, 8), solutions[0].getPlacedTiles().get(1).getCoordinate());
    }
 
    @Test
@@ -84,12 +84,12 @@ public class LowMemoryBoardSolverTest {
       Assert.assertEquals("eb", solutions[1].getWord());
 
       Assert.assertEquals(3, solutions[0].getPlacedTiles().size());
-      Assert.assertEquals(new Coordinate(8, 8), solutions[0].getPlacedTiles().get(0).getCoordinate());
-      Assert.assertEquals(new Coordinate(8, 9), solutions[0].getPlacedTiles().get(1).getCoordinate());
-      Assert.assertEquals(new Coordinate(8, 10), solutions[0].getPlacedTiles().get(2).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(8, 8), solutions[0].getPlacedTiles().get(0).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(8, 9), solutions[0].getPlacedTiles().get(1).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(8, 10), solutions[0].getPlacedTiles().get(2).getCoordinate());
 
       Assert.assertEquals(1, solutions[1].getPlacedTiles().size());
-      Assert.assertEquals(new Coordinate(8, 8), solutions[0].getPlacedTiles().get(0).getCoordinate());
+      Assert.assertEquals(Coordinate.newCoordinate(8, 8), solutions[0].getPlacedTiles().get(0).getCoordinate());
    }
 
    @Test

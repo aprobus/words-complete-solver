@@ -17,16 +17,16 @@ public class PrePostTilePositionFilter extends PositionFilter {
       Coordinate lastCoord = coordinates.get(coordinates.size() - 1);
 
       //Check if there is a tile before/after the location we are playing
-      if (firstCoord.row < lastCoord.row) {
-         if (firstCoord.row - 1 >= 0 && board.hasTile(firstCoord.row - 1, firstCoord.column)) {
+      if (firstCoord.getRow() < lastCoord.getRow()) {
+         if (firstCoord.getRow() - 1 >= 0 && board.hasTile(firstCoord.getRow() - 1, firstCoord.getColumn())) {
             return false;
-         } else if (lastCoord.row + 1 < Board.NUM_ROWS && board.hasTile(lastCoord.row + 1, lastCoord.column)) {
+         } else if (lastCoord.getRow() + 1 < Board.NUM_ROWS && board.hasTile(lastCoord.getRow() + 1, lastCoord.getColumn())) {
             return false;
          }
       } else {
-         if (firstCoord.column - 1 >= 0 && board.hasTile(firstCoord.row, firstCoord.column - 1)) {
+         if (firstCoord.getColumn() - 1 >= 0 && board.hasTile(firstCoord.getRow(), firstCoord.getColumn() - 1)) {
             return false;
-         } else if (lastCoord.column + 1 < Board.NUM_COLUMNS && board.hasTile(lastCoord.row, lastCoord.column + 1)) {
+         } else if (lastCoord.getColumn() + 1 < Board.NUM_COLUMNS && board.hasTile(lastCoord.getRow(), lastCoord.getColumn() + 1)) {
             return false;
          }
       }

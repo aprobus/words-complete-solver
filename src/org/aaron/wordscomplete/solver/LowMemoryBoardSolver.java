@@ -100,7 +100,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
 
    private BoardSolution createBoardSolution(String word, List<Coordinate> coordinates) {
       boolean isLeftToRight = true;
-      if (coordinates.get(0).row < coordinates.get(1).row) {
+      if (coordinates.get(0).getRow() < coordinates.get(1).getRow()) {
          isLeftToRight = false;
       }
 
@@ -133,17 +133,17 @@ public class LowMemoryBoardSolver extends BoardSolver {
    }
 
    private PartialBoardPlacement getSecondaryBoardPlacement(Coordinate coordinate, boolean isLeftToRight, PlacedTile placedTile) {
-      if (isLeftToRight && !(getBoard().hasTile(coordinate.row - 1, coordinate.column) || getBoard().hasTile(coordinate.row + 1, coordinate.column))) {
+      if (isLeftToRight && !(getBoard().hasTile(coordinate.getRow() - 1, coordinate.getColumn()) || getBoard().hasTile(coordinate.getRow() + 1, coordinate.getColumn()))) {
          return null;
-      } else if (!isLeftToRight && !(getBoard().hasTile(coordinate.row, coordinate.column - 1) || getBoard().hasTile(coordinate.row, coordinate.column + 1))) {
+      } else if (!isLeftToRight && !(getBoard().hasTile(coordinate.getRow(), coordinate.getColumn() - 1) || getBoard().hasTile(coordinate.getRow(), coordinate.getColumn() + 1))) {
          return null;
       }
 
       int rowIncrementer = isLeftToRight ? 1 : 0;
       int columnIncrementer = isLeftToRight ? 0 : 1;
 
-      int currentRow = coordinate.row;
-      int currentColumn = coordinate.column;
+      int currentRow = coordinate.getRow();
+      int currentColumn = coordinate.getColumn();
 
       while (getBoard().hasTile(currentRow - rowIncrementer, currentColumn - columnIncrementer)) {
          currentRow -= rowIncrementer;

@@ -38,17 +38,7 @@ public class BoardStringTransformer {
          return null;
       }
 
-      Board board = null;
-      switch(boardType) {
-         case Scrabble:
-            board = new ScrabbleBoard();
-            break;
-         case WordsWithFriends:
-            board = new WordsWithFriendsBoard();
-            break;
-         default:
-            return null;
-      }
+      Board board = Board.ofType(boardType);
 
       int stringIndex = 0;
       for (int row = 0; row < Board.NUM_ROWS; row++) {

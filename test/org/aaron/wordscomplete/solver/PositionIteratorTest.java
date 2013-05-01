@@ -21,28 +21,28 @@ public class PositionIteratorTest {
 
       Assert.assertTrue(positionIterator.hasNext());
       coordinates = positionIterator.next();
-      Assert.assertEquals(0, coordinates.get(0).column);
-      Assert.assertEquals(0, coordinates.get(0).row);
+      Assert.assertEquals(0, coordinates.get(0).getColumn());
+      Assert.assertEquals(0, coordinates.get(0).getRow());
 
       Assert.assertTrue(positionIterator.hasNext());
       coordinates = positionIterator.next();
-      Assert.assertEquals(1, coordinates.get(0).column);
-      Assert.assertEquals(0, coordinates.get(0).row);
+      Assert.assertEquals(1, coordinates.get(0).getColumn());
+      Assert.assertEquals(0, coordinates.get(0).getRow());
 
       Assert.assertTrue(positionIterator.hasNext());
       coordinates = positionIterator.next();
-      Assert.assertEquals(2, coordinates.get(0).column);
-      Assert.assertEquals(0, coordinates.get(0).row);
+      Assert.assertEquals(2, coordinates.get(0).getColumn());
+      Assert.assertEquals(0, coordinates.get(0).getRow());
 
       Assert.assertTrue(positionIterator.hasNext());
       coordinates = positionIterator.next();
-      Assert.assertEquals(3, coordinates.get(0).column);
-      Assert.assertEquals(0, coordinates.get(0).row);
+      Assert.assertEquals(3, coordinates.get(0).getColumn());
+      Assert.assertEquals(0, coordinates.get(0).getRow());
 
       Assert.assertTrue(positionIterator.hasNext());
       coordinates = positionIterator.next();
-      Assert.assertEquals(0, coordinates.get(0).column);
-      Assert.assertEquals(1, coordinates.get(0).row);
+      Assert.assertEquals(0, coordinates.get(0).getColumn());
+      Assert.assertEquals(1, coordinates.get(0).getRow());
 
       assertPositionsWithinBounds(positionIterator);
    }
@@ -52,11 +52,11 @@ public class PositionIteratorTest {
          List<Coordinate> coordinates = positionIterator.next();
 
          for (Coordinate coordinate : coordinates) {
-            Assert.assertTrue(coordinate.row >= 0);
-            Assert.assertTrue(coordinate.column >= 0);
+            Assert.assertTrue(coordinate.getRow() >= 0);
+            Assert.assertTrue(coordinate.getColumn() >= 0);
 
-            Assert.assertTrue(coordinate.toString() + " is out of bounds!", coordinate.row < Board.NUM_ROWS);
-            Assert.assertTrue(coordinate.toString() + " is out of bounds!", coordinate.column < Board.NUM_COLUMNS);
+            Assert.assertTrue(coordinate.toString() + " is out of bounds!", coordinate.getRow() < Board.NUM_ROWS);
+            Assert.assertTrue(coordinate.toString() + " is out of bounds!", coordinate.getColumn() < Board.NUM_COLUMNS);
          }
       }
    }

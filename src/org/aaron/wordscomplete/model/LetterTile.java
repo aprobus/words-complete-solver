@@ -7,6 +7,10 @@ package org.aaron.wordscomplete.model;
  */
 public class LetterTile {
 
+   public static LetterTile newBlankTile() {
+      return new LetterTile('a', true);
+   }
+
    private char letter;
    private boolean isBlank = true;
 

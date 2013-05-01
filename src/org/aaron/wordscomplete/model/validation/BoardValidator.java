@@ -59,7 +59,7 @@ public class BoardValidator {
       for (int row = 0; row < Board.NUM_ROWS; row++) {
          for (int column = 0; column < Board.NUM_COLUMNS; column++) {
             if (tileStatuses[row][column] == TileStatus.Invalid) {
-               invalidCoordinates.add(new Coordinate(row, column));
+               invalidCoordinates.add(Coordinate.newCoordinate(row, column));
             }
          }
       }
