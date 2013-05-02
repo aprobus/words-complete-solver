@@ -29,6 +29,10 @@ public class Coordinate {
       return coordinates[index];
    }
 
+   public static Coordinate newInvalidCoordinate() {
+      return invalidCoordinate;
+   }
+
    private static int toIndex(int row, int column) {
       return row * Board.NUM_COLUMNS + column;
    }
@@ -56,6 +60,14 @@ public class Coordinate {
 
    public Coordinate withColumn(int column) {
       return newCoordinate(row, column);
+   }
+
+   public Coordinate withRowIncremented(int rowDelta) {
+      return newCoordinate(row + rowDelta, column);
+   }
+
+   public Coordinate withColumnIncremented(int columnDelta) {
+      return newCoordinate(row, column + columnDelta);
    }
 
    public boolean isValid() {
