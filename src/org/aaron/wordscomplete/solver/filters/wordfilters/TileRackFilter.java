@@ -21,12 +21,11 @@ public class TileRackFilter implements WordFilter {
    }
 
    @Override
-   public boolean isValidWord(Board board, String word, List<Coordinate> coordinates) {
+   public boolean isValidWord(Board board, String word, List<Coordinate> coordinates, LetterTile[] letterTilesFromBoard) {
       boolean[] usedTile = new boolean[tileRack.getLetterTiles().size()];
 
       for (int i = 0; i < word.length(); i++) {
-         Coordinate coordinate = coordinates.get(i);
-         LetterTile tile = board.getTile(coordinate);
+         LetterTile tile = letterTilesFromBoard[i];
          if (tile != null) {
             continue;
          }

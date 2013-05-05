@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class ExistingTilesFilter implements WordFilter {
    @Override
-   public boolean isValidWord(Board board, String word, List<Coordinate> coordinates) {
+   public boolean isValidWord(Board board, String word, List<Coordinate> coordinates, LetterTile[] letterTilesFromBoard) {
       for (int i = 0; i < coordinates.size(); i++) {
-         LetterTile letterTile = board.getTile(coordinates.get(i));
+         LetterTile letterTile = letterTilesFromBoard[i];
 
          if (letterTile != null && letterTile.getLetter() != word.charAt(i)) {
             return false;

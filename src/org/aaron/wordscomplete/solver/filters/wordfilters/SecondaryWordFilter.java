@@ -3,6 +3,7 @@ package org.aaron.wordscomplete.solver.filters.wordfilters;
 import org.aaron.wordscomplete.dictionary.Dictionary;
 import org.aaron.wordscomplete.model.Board;
 import org.aaron.wordscomplete.model.Coordinate;
+import org.aaron.wordscomplete.model.LetterTile;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class SecondaryWordFilter implements WordFilter {
    }
 
    @Override
-   public boolean isValidWord(Board board, String word, List<Coordinate> coordinates) {
+   public boolean isValidWord(Board board, String word, List<Coordinate> coordinates, LetterTile[] letterTilesFromBoard) {
       Direction placementDirection = Direction.Down;
 
       if (coordinates.get(0).getColumn() < coordinates.get(1).getColumn()) {

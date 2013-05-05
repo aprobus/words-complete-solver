@@ -66,10 +66,15 @@ public class LowMemoryBoardSolver extends BoardSolver {
 
             Iterator<String> wordIterator = getDictionary().getWordsForLengthIterator(wordSize);
 
+            LetterTile[] letterTilesForCoordinates = new LetterTile[coordinates.size()];
+            for (int i = 0; i < coordinates.size(); i++) {
+               letterTilesForCoordinates[i] = getBoard().getTile(coordinates.get(i));
+            }
+
             while (wordIterator.hasNext()) {
                String word = wordIterator.next();
 
-               if (areAllWordFiltersValid(coordinates, word)) {
+               if (areAllWordFiltersValid(coordinates, letterTilesForCoordinates, word)) {
                   solutions.add(createBoardSolution(word, coordinates));
                }
             }
@@ -89,9 +94,9 @@ public class LowMemoryBoardSolver extends BoardSolver {
       return true;
    }
 
-   private boolean areAllWordFiltersValid(List<Coordinate> coordinates, String word) {
+   private boolean areAllWordFiltersValid(List<Coordinate> coordinates, LetterTile[] letterTilesForCoordinates, String word) {
       for (WordFilter filter : mWordFilters) {
-         if (!filter.isValidWord(getBoard(), word, coordinates)) {
+         if (!filter.isValidWord(getBoard(), word, coordinates, letterTilesForCoordinates)) {
             return false;
          }
       }
