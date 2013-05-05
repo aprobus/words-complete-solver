@@ -20,7 +20,8 @@ import java.util.List;
  * Time: 10:51 AM
  */
 public class LowMemoryBoardSolver extends BoardSolver {
-   private static final int[] WORD_SIZES = new int[]{ 2, 5, 14, 15, 4, 12, 13, 6, 11, 7, 10, 8, 3, 9 };
+   private static final int MIN_WORD_SIZE = 2;
+   private static final int MAX_WORD_SIZE = 15;
 
    private WordFilter[] mWordFilters;
    private PositionFilter[] mPositionFilters;
@@ -53,8 +54,8 @@ public class LowMemoryBoardSolver extends BoardSolver {
    public BoardSolution[] solveBoard() {
       BoardSolutions solutions = new BoardSolutions(MAX_SOLUTIONS);
 
-      for (int i = 0; i < WORD_SIZES.length; i++) {
-         PositionIterator positionIterator = new PositionIterator(WORD_SIZES[i]);
+      for (int wordSize = MIN_WORD_SIZE; wordSize < MAX_WORD_SIZE; wordSize++) {
+         PositionIterator positionIterator = new PositionIterator(wordSize);
 
          while (positionIterator.hasNext()) {
             List<Coordinate> coordinates = positionIterator.next();
@@ -63,7 +64,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
                continue;
             }
 
-            Iterator<String> wordIterator = getDictionary().getWordsForLengthIterator(WORD_SIZES[i]);
+            Iterator<String> wordIterator = getDictionary().getWordsForLengthIterator(wordSize);
 
             while (wordIterator.hasNext()) {
                String word = wordIterator.next();
@@ -78,7 +79,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
       return solutions.getSortedSolutions();
    }
 
-   public boolean areAllPositionFiltersValid(List<Coordinate> coordinates) {
+   private boolean areAllPositionFiltersValid(List<Coordinate> coordinates) {
       for (PositionFilter filter : mPositionFilters) {
          if (!filter.isValidPosition(getBoard(), coordinates)) {
             return false;
@@ -88,7 +89,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
       return true;
    }
 
-   public boolean areAllWordFiltersValid(List<Coordinate> coordinates, String word) {
+   private boolean areAllWordFiltersValid(List<Coordinate> coordinates, String word) {
       for (WordFilter filter : mWordFilters) {
          if (!filter.isValidWord(getBoard(), word, coordinates)) {
             return false;
