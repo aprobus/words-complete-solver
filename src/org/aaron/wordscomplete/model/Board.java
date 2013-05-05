@@ -9,18 +9,18 @@ import org.aaron.wordscomplete.model.scoring.FullBoardPlacement;
  */
 public abstract class Board {
 
-   protected BoardTile[][] board;
+   protected BoardTile[] board;
    protected boolean isEmpty = true;
 
    public static final int NUM_ROWS = 15;
    public static final int NUM_COLUMNS = 15;
 
    protected Board () {
-      board = new BoardTile[NUM_COLUMNS][NUM_ROWS];
+      board = new BoardTile[NUM_COLUMNS * NUM_ROWS];
 
       for (int row = 0; row < NUM_ROWS; row++) {
          for (int column = 0; column < NUM_COLUMNS; column++) {
-            board[column][row] = new BoardTile(getScoreBonusForCoordinate(row, column));
+            board[toIndex(row, column)] = new BoardTile(getScoreBonusForCoordinate(row, column));
          }
       }
    }
@@ -46,15 +46,19 @@ public abstract class Board {
       if (row < 0 || column < 0 || row >= NUM_ROWS || column >= NUM_COLUMNS) {
          return false;
       } else {
-         return board[column][row].getTile() != null;
+         return board[toIndex(row, column)].getTile() != null;
       }
+   }
+
+   public LetterTile getTile(Coordinate coordinate) {
+      return getTile(coordinate.getRow(), coordinate.getColumn());
    }
 
    public LetterTile getTile (int row, int column) {
       if (row < 0 || column < 0 || row >= NUM_ROWS || column >= NUM_COLUMNS) {
          return null;
       } else {
-         return board[column][row].getTile();
+         return board[toIndex(row, column)].getTile();
       }
    }
 
@@ -64,7 +68,7 @@ public abstract class Board {
 
    public void clearTile (int row, int column) {
       if (row >= 0 && column >= 0 && row < NUM_ROWS && column < NUM_COLUMNS) {
-         board[column][row].setTile(null);
+         board[toIndex(row, column)].setTile(null);
       }
    }
 
@@ -72,7 +76,7 @@ public abstract class Board {
       if (row < 0 || column < 0 || row >= NUM_ROWS || column >= NUM_COLUMNS) {
          return null;
       } else {
-         return board[column][row];
+         return board[toIndex(row, column)];
       }
    }
 
@@ -80,13 +84,9 @@ public abstract class Board {
       return getBoardTile(coordinate.getRow(), coordinate.getColumn());
    }
 
-   public LetterTile getTile(Coordinate coordinate) {
-      return getTile(coordinate.getRow(), coordinate.getColumn());
-   }
-
    public void setTile (int row, int column, LetterTile tile) {
       this.isEmpty = false;
-      board[column][row].setTile(tile);
+      board[toIndex(row, column)].setTile(tile);
    }
 
    public void setTile(Coordinate coordinate, LetterTile tile) {
@@ -95,6 +95,10 @@ public abstract class Board {
 
    public boolean isEmpty() {
       return isEmpty;
+   }
+
+   private static int toIndex(int row, int column) {
+      return row * Board.NUM_COLUMNS + column;
    }
 
    @Override
