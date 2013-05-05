@@ -11,10 +11,12 @@ import java.util.List;
  * Date: 1/26/13
  * Time: 4:48 PM
  */
-public class SecondaryWordFilter extends WordFilter<Dictionary> {
+public class SecondaryWordFilter implements WordFilter {
+
+   private Dictionary dictionary;
 
    public SecondaryWordFilter(Dictionary dictionary) {
-      super(dictionary);
+      this.dictionary = dictionary;
    }
 
    @Override
@@ -82,7 +84,7 @@ public class SecondaryWordFilter extends WordFilter<Dictionary> {
          }
       }
 
-      return mFilterValue.exists(wordFormed.toString());
+      return dictionary.exists(wordFormed.toString());
    }
 
    private enum Direction {

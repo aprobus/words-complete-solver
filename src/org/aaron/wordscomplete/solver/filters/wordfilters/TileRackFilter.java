@@ -12,15 +12,17 @@ import java.util.List;
  * Date: 1/26/13
  * Time: 4:25 PM
  */
-public class TileRackFilter extends WordFilter<TileRack> {
+public class TileRackFilter implements WordFilter {
+
+   private TileRack tileRack;
 
    public TileRackFilter(TileRack tileRack) {
-      super(tileRack);
+      this.tileRack = tileRack;
    }
 
    @Override
    public boolean isValidWord(Board board, String word, List<Coordinate> coordinates) {
-      boolean[] usedTile = new boolean[mFilterValue.getLetterTiles().size()];
+      boolean[] usedTile = new boolean[tileRack.getLetterTiles().size()];
 
       for (int i = 0; i < word.length(); i++) {
          Coordinate coordinate = coordinates.get(i);
@@ -39,7 +41,7 @@ public class TileRackFilter extends WordFilter<TileRack> {
    }
 
    private boolean markFirstUsableTileUsed(boolean[] usedTiles, char letterToUse) {
-      List<LetterTile> letterTiles = mFilterValue.getLetterTiles();
+      List<LetterTile> letterTiles = tileRack.getLetterTiles();
       for (int i = 0; i < usedTiles.length; i++) {
          if (!usedTiles[i] && !letterTiles.get(i).isBlank() && letterTiles.get(i).getLetter() == letterToUse) {
             usedTiles[i] = true;

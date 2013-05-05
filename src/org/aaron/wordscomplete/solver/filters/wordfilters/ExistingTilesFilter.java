@@ -11,7 +11,7 @@ import java.util.List;
  * Date: 1/27/13
  * Time: 11:08 AM
  */
-public class ExistingTilesFilter extends WordFilter<Void> {
+public class ExistingTilesFilter implements WordFilter {
    @Override
    public boolean isValidWord(Board board, String word, List<Coordinate> coordinates) {
       for (int i = 0; i < coordinates.size(); i++) {
