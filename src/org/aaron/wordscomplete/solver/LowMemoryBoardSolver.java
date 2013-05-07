@@ -53,6 +53,8 @@ public class LowMemoryBoardSolver extends BoardSolver {
    @Override
    public BoardSolution[] solveBoard() {
       BoardSolutions solutions = new BoardSolutions(MAX_SOLUTIONS);
+      Board board = getBoard();
+      Dictionary dictionary = getDictionary();
 
       for (int wordSize = MIN_WORD_SIZE; wordSize < MAX_WORD_SIZE; wordSize++) {
          PositionIterator positionIterator = new PositionIterator(wordSize);
@@ -64,11 +66,11 @@ public class LowMemoryBoardSolver extends BoardSolver {
                continue;
             }
 
-            Iterator<String> wordIterator = getDictionary().getWordsForLengthIterator(wordSize);
+            Iterator<String> wordIterator = dictionary.getWordsForLengthIterator(wordSize);
 
             LetterTile[] letterTilesForCoordinates = new LetterTile[coordinates.size()];
             for (int i = 0; i < coordinates.size(); i++) {
-               letterTilesForCoordinates[i] = getBoard().getTile(coordinates.get(i));
+               letterTilesForCoordinates[i] = board.getTile(coordinates.get(i));
             }
 
             while (wordIterator.hasNext()) {
