@@ -95,13 +95,12 @@ public class LowMemoryBoardSolver extends BoardSolver {
    }
 
    private boolean areAllWordFiltersValid(List<Coordinate> coordinates, LetterTile[] letterTilesForCoordinates, String word) {
-      for (WordFilter filter : mWordFilters) {
-         if (!filter.isValidWord(getBoard(), word, coordinates, letterTilesForCoordinates)) {
-            return false;
-         }
-      }
+      Board board = getBoard();
 
-      return true;
+      //Faster than looping
+      return mWordFilters[0].isValidWord(board, word, coordinates, letterTilesForCoordinates)
+            && mWordFilters[1].isValidWord(board, word, coordinates, letterTilesForCoordinates)
+            && mWordFilters[2].isValidWord(board, word, coordinates, letterTilesForCoordinates);
    }
 
    private BoardSolution createBoardSolution(String word, List<Coordinate> coordinates) {
