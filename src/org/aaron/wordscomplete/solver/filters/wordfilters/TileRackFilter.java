@@ -24,13 +24,15 @@ public class TileRackFilter implements WordFilter {
    public boolean isValidWord(Board board, String word, List<Coordinate> coordinates, LetterTile[] letterTilesFromBoard) {
       boolean[] usedTile = new boolean[tileRack.getLetterTiles().size()];
 
+      List<LetterTile> rackTiles = tileRack.getLetterTiles();
+
       for (int i = 0; i < word.length(); i++) {
          LetterTile tile = letterTilesFromBoard[i];
          if (tile != null) {
             continue;
          }
 
-         boolean hasValidTile = markFirstUsableTileUsed(usedTile, word.charAt(i));
+         boolean hasValidTile = markFirstUsableTileUsed(rackTiles, usedTile, word.charAt(i));
          if (!hasValidTile) {
             return false;
          }
@@ -39,17 +41,16 @@ public class TileRackFilter implements WordFilter {
       return true;
    }
 
-   private boolean markFirstUsableTileUsed(boolean[] usedTiles, char letterToUse) {
-      List<LetterTile> letterTiles = tileRack.getLetterTiles();
+   private static boolean markFirstUsableTileUsed(List<LetterTile> rackTiles, boolean[] usedTiles, char letterToUse) {
       for (int i = 0; i < usedTiles.length; i++) {
-         if (!usedTiles[i] && !letterTiles.get(i).isBlank() && letterTiles.get(i).getLetter() == letterToUse) {
+         if (!usedTiles[i] && !rackTiles.get(i).isBlank() && rackTiles.get(i).getLetter() == letterToUse) {
             usedTiles[i] = true;
             return true;
          }
       }
 
       for (int i = 0; i < usedTiles.length; i++) {
-         if (!usedTiles[i] && letterTiles.get(i).isBlank()) {
+         if (!usedTiles[i] && rackTiles.get(i).isBlank()) {
             usedTiles[i] = true;
             return true;
          }

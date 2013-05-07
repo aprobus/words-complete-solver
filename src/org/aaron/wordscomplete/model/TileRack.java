@@ -1,5 +1,6 @@
 package org.aaron.wordscomplete.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,11 +14,11 @@ public class TileRack {
    private List<LetterTile> letterTiles;
 
    public TileRack () {
-      letterTiles = new LinkedList<LetterTile>();
+      letterTiles = new ArrayList<LetterTile>(7);
    }
 
    public TileRack (List<LetterTile> tiles) {
-      letterTiles = new LinkedList<LetterTile>();
+      letterTiles = new ArrayList<LetterTile>(7);
       letterTiles.addAll(tiles);
    }
 
@@ -26,7 +27,7 @@ public class TileRack {
    }
 
    public void removeTile(LetterTile letterTile) {
-      List<LetterTile> newLetterTiles = new LinkedList<LetterTile>();
+      List<LetterTile> newLetterTiles = new ArrayList<LetterTile>(7);
       boolean hasRemovedTile = false;
 
       for (LetterTile tile : letterTiles) {
