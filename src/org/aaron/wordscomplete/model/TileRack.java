@@ -42,4 +42,22 @@ public class TileRack {
       letterTiles = newLetterTiles;
    }
 
+   public TileRack moveBlanksToEnd() {
+      List<LetterTile> sortedLetterTiles = new ArrayList<LetterTile>(7);
+
+      for (LetterTile tile : letterTiles) {
+         if (!tile.isBlank()) {
+            sortedLetterTiles.add(tile);
+         }
+      }
+
+      for (LetterTile tile : letterTiles) {
+         if (tile.isBlank()) {
+            sortedLetterTiles.add(tile);
+         }
+      }
+
+      return new TileRack(sortedLetterTiles);
+   }
+
 }

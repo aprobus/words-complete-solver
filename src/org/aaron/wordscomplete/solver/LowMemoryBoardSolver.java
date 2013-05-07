@@ -27,12 +27,12 @@ public class LowMemoryBoardSolver extends BoardSolver {
    private PositionFilter[] mPositionFilters;
 
    public LowMemoryBoardSolver(Board board, TileRack tileRack, Dictionary dictionary) {
-      super(board, tileRack, dictionary);
+      super(board, tileRack.moveBlanksToEnd(), dictionary);
 
       ExistingTilePositionFilter existingTilePositionFilter = new ExistingTilePositionFilter();
       FullPositionFilter fullPositionFilter = new FullPositionFilter();
       PrePostTilePositionFilter prePostTilePositionFilter = new PrePostTilePositionFilter();
-      SecondaryWordPositionFilter secondaryWordPositionFilter = new SecondaryWordPositionFilter(getBoard(), tileRack, getDictionary());
+      SecondaryWordPositionFilter secondaryWordPositionFilter = new SecondaryWordPositionFilter(getBoard(), getTileRack(), getDictionary());
 
       mPositionFilters = new PositionFilter[4];
       mPositionFilters[0] = existingTilePositionFilter;
@@ -41,7 +41,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
       mPositionFilters[3] = secondaryWordPositionFilter;
 
       ExistingTilesFilter existingTilesFilter = new ExistingTilesFilter();
-      TileRackFilter tileRackFilter = new TileRackFilter(tileRack);
+      TileRackFilter tileRackFilter = new TileRackFilter(getTileRack());
       SecondaryWordFilter secondaryWordFilter = new SecondaryWordFilter(getDictionary());
 
       mWordFilters = new WordFilter[3];

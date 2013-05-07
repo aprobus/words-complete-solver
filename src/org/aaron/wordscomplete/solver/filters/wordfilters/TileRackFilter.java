@@ -8,6 +8,9 @@ import org.aaron.wordscomplete.model.TileRack;
 import java.util.List;
 
 /**
+ * Tests if a word can be formed with the given tiles.
+ * Assumption: Blank tiles must be at the end of the tile rack
+ *
  * User: aprobus
  * Date: 1/26/13
  * Time: 4:25 PM
@@ -43,14 +46,8 @@ public class TileRackFilter implements WordFilter {
 
    private static boolean markFirstUsableTileUsed(List<LetterTile> rackTiles, boolean[] usedTiles, char letterToUse) {
       for (int i = 0; i < usedTiles.length; i++) {
-         if (!usedTiles[i] && !rackTiles.get(i).isBlank() && rackTiles.get(i).getLetter() == letterToUse) {
-            usedTiles[i] = true;
-            return true;
-         }
-      }
-
-      for (int i = 0; i < usedTiles.length; i++) {
-         if (!usedTiles[i] && rackTiles.get(i).isBlank()) {
+         LetterTile tile = rackTiles.get(i);
+         if (!usedTiles[i] && (tile.isBlank() || tile.getLetter() == letterToUse)) {
             usedTiles[i] = true;
             return true;
          }
