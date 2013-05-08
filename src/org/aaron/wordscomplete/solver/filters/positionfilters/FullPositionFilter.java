@@ -10,9 +10,16 @@ import java.util.List;
  * Date: 1/27/13
  * Time: 5:42 PM
  */
-public class FullPositionFilter extends PositionFilter {
+public class FullPositionFilter implements PositionFilter {
+
+   private Board board;
+
+   public FullPositionFilter(Board board) {
+      this.board = board;
+   }
+
    @Override
-   public boolean isValidPosition(Board board, List<Coordinate> coordinates) {
+   public boolean isValidPosition(List<Coordinate> coordinates) {
       for (Coordinate coordinate : coordinates) {
          if (!board.hasTile(coordinate)) {
             return true;

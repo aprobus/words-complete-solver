@@ -10,6 +10,6 @@ import java.util.List;
  * Date: 1/27/13
  * Time: 10:21 AM
  */
-public abstract class PositionFilter {
-   public abstract boolean isValidPosition(Board board, List<Coordinate> coordinates);
+public interface PositionFilter {
+   boolean isValidPosition(List<Coordinate> coordinates);
 }

@@ -29,16 +29,18 @@ public class LowMemoryBoardSolver extends BoardSolver {
    public LowMemoryBoardSolver(Board board, TileRack tileRack, Dictionary dictionary) {
       super(board, tileRack.moveBlanksToEnd(), dictionary);
 
-      ExistingTilePositionFilter existingTilePositionFilter = new ExistingTilePositionFilter();
-      FullPositionFilter fullPositionFilter = new FullPositionFilter();
-      PrePostTilePositionFilter prePostTilePositionFilter = new PrePostTilePositionFilter();
+      ExistingTilePositionFilter existingTilePositionFilter = new ExistingTilePositionFilter(board);
+      FullPositionFilter fullPositionFilter = new FullPositionFilter(board);
+      PrePostTilePositionFilter prePostTilePositionFilter = new PrePostTilePositionFilter(board);
       SecondaryWordPositionFilter secondaryWordPositionFilter = new SecondaryWordPositionFilter(getBoard(), getTileRack(), getDictionary());
+      FillAllPositionsFilter fillAllPositionsFilter = new FillAllPositionsFilter(board, getTileRack());
 
-      mPositionFilters = new PositionFilter[4];
+      mPositionFilters = new PositionFilter[5];
       mPositionFilters[0] = existingTilePositionFilter;
       mPositionFilters[1] = prePostTilePositionFilter;
       mPositionFilters[2] = fullPositionFilter;
       mPositionFilters[3] = secondaryWordPositionFilter;
+      mPositionFilters[4] = fillAllPositionsFilter;
 
       ExistingTilesFilter existingTilesFilter = new ExistingTilesFilter();
       TileRackFilter tileRackFilter = new TileRackFilter(getTileRack());
@@ -88,7 +90,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
 
    private boolean areAllPositionFiltersValid(List<Coordinate> coordinates) {
       for (PositionFilter filter : mPositionFilters) {
-         if (!filter.isValidPosition(getBoard(), coordinates)) {
+         if (!filter.isValidPosition(coordinates)) {
             return false;
          }
       }

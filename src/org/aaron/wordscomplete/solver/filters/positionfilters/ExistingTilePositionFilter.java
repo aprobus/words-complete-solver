@@ -10,9 +10,16 @@ import java.util.List;
  * Date: 1/27/13
  * Time: 5:47 PM
  */
-public class ExistingTilePositionFilter extends PositionFilter {
+public class ExistingTilePositionFilter implements PositionFilter {
+
+   private Board board;
+
+   public ExistingTilePositionFilter(Board board) {
+      this.board = board;
+   }
+
    @Override
-   public boolean isValidPosition(Board board, List<Coordinate> coordinates) {
+   public boolean isValidPosition(List<Coordinate> coordinates) {
       Coordinate firstCoord = coordinates.get(0);
       Coordinate lastCoord = coordinates.get(coordinates.size() - 1);
 

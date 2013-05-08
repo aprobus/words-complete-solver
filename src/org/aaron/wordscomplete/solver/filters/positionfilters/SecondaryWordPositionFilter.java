@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 1/29/13
  * Time: 4:48 PM
  */
-public class SecondaryWordPositionFilter extends PositionFilter {
+public class SecondaryWordPositionFilter implements PositionFilter {
 
    private static final byte VALID_HORI_FLAG = 0x1;
    private static final byte VALID_VERT_FLAG = 0x2;
@@ -30,7 +30,7 @@ public class SecondaryWordPositionFilter extends PositionFilter {
    }
 
    @Override
-   public boolean isValidPosition(Board board, List<Coordinate> coordinates) {
+   public boolean isValidPosition(List<Coordinate> coordinates) {
       boolean isHori = coordinates.get(0).getColumn() < coordinates.get(1).getColumn();
 
       for (int i = 0; i < coordinates.size(); i++) {
