@@ -34,13 +34,16 @@ public class LowMemoryBoardSolver extends BoardSolver {
       PrePostTilePositionFilter prePostTilePositionFilter = new PrePostTilePositionFilter(board);
       SecondaryWordPositionFilter secondaryWordPositionFilter = new SecondaryWordPositionFilter(getBoard(), getTileRack(), getDictionary());
       FillAllPositionsFilter fillAllPositionsFilter = new FillAllPositionsFilter(board, getTileRack());
+      SimilarWordFilter similarWordFilter = new SimilarWordFilter(board, dictionary);
 
-      mPositionFilters = new PositionFilter[5];
-      mPositionFilters[0] = existingTilePositionFilter;
-      mPositionFilters[1] = prePostTilePositionFilter;
-      mPositionFilters[2] = fullPositionFilter;
-      mPositionFilters[3] = secondaryWordPositionFilter;
-      mPositionFilters[4] = fillAllPositionsFilter;
+      mPositionFilters = new PositionFilter[] {
+         existingTilePositionFilter,
+         prePostTilePositionFilter,
+         fullPositionFilter,
+         secondaryWordPositionFilter,
+         fillAllPositionsFilter,
+         similarWordFilter
+      };
 
       ExistingTilesFilter existingTilesFilter = new ExistingTilesFilter();
       TileRackFilter tileRackFilter = new TileRackFilter(getTileRack());

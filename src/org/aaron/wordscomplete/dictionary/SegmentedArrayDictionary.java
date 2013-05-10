@@ -127,6 +127,49 @@ public class SegmentedArrayDictionary implements Dictionary {
       return false;
    }
 
+   public boolean hasSimilarWord(char[] letters) {
+      List<String> words = mWordsByLength[letters.length - 2];
+
+      int startIndex = 0;
+      int endIndex = words.size() - 1;
+
+      for (int i = 0; letters[i] != 0 && i < letters.length; i++) {
+         char searchForLetter = letters[i];
+         int delta = (endIndex - startIndex) / 2;
+
+         while (delta > 0) {
+            int midIndex = startIndex + delta;
+            char midLetter = words.get(midIndex).charAt(i);
+
+            if (searchForLetter > midLetter) {
+               startIndex = midIndex;
+            } else if (searchForLetter < midLetter) {
+               endIndex = midIndex;
+            }
+
+            delta /= 2;
+         }
+      }
+
+      for (int i = startIndex; i <= endIndex; i++) {
+         if (areSimilar(letters, words.get(i))) {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   private static boolean areSimilar(char[] letters, String word) {
+      for (int i = 0; i < letters.length; i++) {
+         if (letters[i] != 0 && letters[i] != word.charAt(i)) {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
    private class WordIterator implements Iterator<String> {
 
       private List<String> mWords;
