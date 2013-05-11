@@ -26,7 +26,7 @@ public class BoardSolutions {
       this(30);
    }
 
-   public void add(BoardSolution solution) {
+   public synchronized void add(BoardSolution solution) {
       if(mSolutions.size() < mMaxSolutions ) {
          mSolutions.add(solution);
       } else if (mSolutions.peek().getScore() < solution.getScore()) {

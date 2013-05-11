@@ -68,21 +68,14 @@ public class LowMemoryBoardSolver extends BoardSolver {
    public BoardSolution[] solveBoard() {
       BoardSolutions solutions = new BoardSolutions(BoardSolver.MAX_SOLUTIONS);
 
-      List<FutureTask<BoardSolutions>> solverFutures = new ArrayList<FutureTask<BoardSolutions>>(THREAD_COUNT);
+      List<BoardSolverCallable> solverFutures = new ArrayList<BoardSolverCallable>(THREAD_COUNT);
       for (int i = 0; i < THREAD_COUNT; i++) {
-         FutureTask<BoardSolutions> solverFuture = new FutureTask<BoardSolutions>(new BoardSolverCallable(THREAD_COUNT, i));
-         solverFutures.add(solverFuture);
-         threadPool.execute(solverFuture);
+         solverFutures.add(new BoardSolverCallable(solutions, THREAD_COUNT, i));
       }
 
       try {
-         for (int i = 0; i < solverFutures.size(); i++) {
-            BoardSolutions threadSolutions = solverFutures.get(i).get();
-            solutions.addAll(threadSolutions.getSortedSolutions());
-         }
+         threadPool.invokeAll(solverFutures);
       } catch (InterruptedException e) {
-         return null;
-      } catch (ExecutionException e) {
          return null;
       }
 
@@ -202,19 +195,20 @@ public class LowMemoryBoardSolver extends BoardSolver {
       throw new IllegalStateException("Unable to find unused letter tile");
    }
 
-   private class BoardSolverCallable implements Callable<BoardSolutions> {
+   private class BoardSolverCallable implements Callable<Void> {
 
+      private BoardSolutions solutions;
       private int incrementBy;
       private int initialOffset;
 
-      private BoardSolverCallable(int incrementBy, int initialOffset) {
+      private BoardSolverCallable(BoardSolutions solutions, int incrementBy, int initialOffset) {
+         this.solutions = solutions;
          this.incrementBy = incrementBy;
          this.initialOffset = initialOffset;
       }
 
       @Override
-      public BoardSolutions call() throws Exception {
-         BoardSolutions solutions = new BoardSolutions(MAX_SOLUTIONS);
+      public Void call() throws Exception {
          Board board = getBoard();
          Dictionary dictionary = getDictionary();
 
@@ -245,7 +239,7 @@ public class LowMemoryBoardSolver extends BoardSolver {
             }
          }
 
-         return solutions;
+         return null;
       }
    }
 
