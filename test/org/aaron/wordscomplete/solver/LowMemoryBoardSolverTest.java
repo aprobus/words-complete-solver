@@ -5,9 +5,11 @@ import org.aaron.wordscomplete.dictionary.SegmentedArrayDictionary;
 import org.aaron.wordscomplete.model.*;
 import org.aaron.wordscomplete.model.scoring.BoardPlacement;
 import org.aaron.wordscomplete.transformer.TileRackStringTransformer;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: aprobus
@@ -16,8 +18,20 @@ import org.junit.Test;
  */
 public class LowMemoryBoardSolverTest {
 
+   private static ThreadPoolExecutor threadPool;
+
    private Dictionary mDictionary;
    private Board mBoard;
+
+   @BeforeClass
+   public static void setupClass() {
+      threadPool = new ThreadPoolExecutor(4, 4, 4, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(100));
+   }
+
+   @AfterClass
+   public static void tearDownClass() {
+      threadPool.shutdown();
+   }
 
    @Before
    public void setupDictionary() {
@@ -38,7 +52,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('h'));
       mBoard.setTile(7, 8, new LetterTile('e'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("te"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("te"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(1, solutions.length);
@@ -56,7 +70,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('h'));
       mBoard.setTile(8, 7, new LetterTile('e'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("te"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("te"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(1, solutions.length);
@@ -76,7 +90,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('h'));
       mBoard.setTile(7, 8, new LetterTile('e'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("boo"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("boo"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(2, solutions.length);
@@ -102,7 +116,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('h'));
       mBoard.setTile(8, 7, new LetterTile('e'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("boo"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("boo"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(2, solutions.length);
@@ -126,7 +140,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(9, 8, new LetterTile('o'));
       mBoard.setTile(9, 9, new LetterTile('t'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("om"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("om"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(4, solutions.length);
@@ -149,7 +163,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(8, 9, new LetterTile('o'));
       mBoard.setTile(9, 9, new LetterTile('t'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("om"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("om"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(4, solutions.length);
@@ -164,7 +178,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('h'));
       mBoard.setTile(7, 8, new LetterTile('e'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("sis"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("sis"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(1, solutions.length);
@@ -178,7 +192,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('h'));
       mBoard.setTile(8, 7, new LetterTile('e'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("sis"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("sis"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(1, solutions.length);
@@ -193,7 +207,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('r'));
       mBoard.setTile(8, 7, new LetterTile('a'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("is"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("is"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(2, solutions.length);
@@ -209,7 +223,7 @@ public class LowMemoryBoardSolverTest {
       mBoard.setTile(7, 7, new LetterTile('r'));
       mBoard.setTile(7, 8, new LetterTile('a'));
 
-      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("is"), mDictionary);
+      LowMemoryBoardSolver lowMemoryBoardSolver = new LowMemoryBoardSolver(mBoard, TileRackStringTransformer.fromString("is"), mDictionary, threadPool);
       BoardSolution[] solutions = lowMemoryBoardSolver.solveBoard();
 
       Assert.assertEquals(2, solutions.length);

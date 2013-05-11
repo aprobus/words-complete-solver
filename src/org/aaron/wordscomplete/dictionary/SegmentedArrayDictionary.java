@@ -68,7 +68,12 @@ public class SegmentedArrayDictionary implements Dictionary {
 
    @Override
    public Iterator<String> getWordsForLengthIterator(int wordSize) {
-      return new WordIterator(wordSize);
+      return getWordsForLengthIterator(wordSize, 1 ,0);
+   }
+
+   @Override
+   public Iterator<String> getWordsForLengthIterator(int wordSize, int incrementBy, int initialOffset) {
+      return new WordIterator(wordSize, incrementBy, initialOffset);
    }
 
    @Override
@@ -174,10 +179,13 @@ public class SegmentedArrayDictionary implements Dictionary {
 
       private List<String> mWords;
       private int mCurrentIndex;
+      private int incrementBy;
 
-      public WordIterator(int wordSize) {
+      public WordIterator(int wordSize, int incrementBy, int initialOffset) {
          mWords = mWordsByLength[wordSize - 2];
-         mCurrentIndex = 0;
+         mCurrentIndex = initialOffset;
+
+         this.incrementBy = incrementBy;
       }
 
       @Override
@@ -188,7 +196,7 @@ public class SegmentedArrayDictionary implements Dictionary {
       @Override
       public String next() {
          String word = mWords.get(mCurrentIndex);
-         mCurrentIndex++;
+         mCurrentIndex += incrementBy;
          return word;
       }
 

@@ -13,6 +13,7 @@ public interface Dictionary {
    void setWords(String[] words);
    boolean exists(String word);
    Iterator<String> getWordsForLengthIterator(int wordSize);
+   Iterator<String> getWordsForLengthIterator(int wordSize, int incrementBy, int initialOffset);
    boolean hasWordForWildCard(String prefix, TileRack tileRack, String suffix);
    boolean hasSimilarWord(char[] letters);
 }

@@ -10,9 +10,11 @@ import org.aaron.wordscomplete.solver.filters.wordfilters.SecondaryWordFilter;
 import org.aaron.wordscomplete.solver.filters.wordfilters.TileRackFilter;
 import org.aaron.wordscomplete.solver.filters.wordfilters.WordFilter;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * User: aprobus
@@ -20,14 +22,21 @@ import java.util.List;
  * Time: 10:51 AM
  */
 public class LowMemoryBoardSolver extends BoardSolver {
+
+   private static final int THREAD_COUNT = 4;
+
    private static final int MIN_WORD_SIZE = 2;
    private static final int MAX_WORD_SIZE = 15;
+
+   private ExecutorService threadPool;
 
    private WordFilter[] mWordFilters;
    private PositionFilter[] mPositionFilters;
 
-   public LowMemoryBoardSolver(Board board, TileRack tileRack, Dictionary dictionary) {
+   public LowMemoryBoardSolver(Board board, TileRack tileRack, Dictionary dictionary, ExecutorService threadPool) {
       super(board, tileRack.moveBlanksToEnd(), dictionary);
+
+      this.threadPool = threadPool;
 
       ExistingTilePositionFilter existingTilePositionFilter = new ExistingTilePositionFilter(board);
       FullPositionFilter fullPositionFilter = new FullPositionFilter(board);
@@ -57,35 +66,24 @@ public class LowMemoryBoardSolver extends BoardSolver {
 
    @Override
    public BoardSolution[] solveBoard() {
-      BoardSolutions solutions = new BoardSolutions(MAX_SOLUTIONS);
-      Board board = getBoard();
-      Dictionary dictionary = getDictionary();
+      BoardSolutions solutions = new BoardSolutions(BoardSolver.MAX_SOLUTIONS);
 
-      for (int wordSize = MIN_WORD_SIZE; wordSize < MAX_WORD_SIZE; wordSize++) {
-         PositionIterator positionIterator = new PositionIterator(wordSize);
+      List<FutureTask<BoardSolutions>> solverFutures = new ArrayList<FutureTask<BoardSolutions>>(THREAD_COUNT);
+      for (int i = 0; i < THREAD_COUNT; i++) {
+         FutureTask<BoardSolutions> solverFuture = new FutureTask<BoardSolutions>(new BoardSolverCallable(THREAD_COUNT, i));
+         solverFutures.add(solverFuture);
+         threadPool.execute(solverFuture);
+      }
 
-         while (positionIterator.hasNext()) {
-            List<Coordinate> coordinates = positionIterator.next();
-
-            if (!areAllPositionFiltersValid(coordinates)) {
-               continue;
-            }
-
-            Iterator<String> wordIterator = dictionary.getWordsForLengthIterator(wordSize);
-
-            LetterTile[] letterTilesForCoordinates = new LetterTile[coordinates.size()];
-            for (int i = 0; i < coordinates.size(); i++) {
-               letterTilesForCoordinates[i] = board.getTile(coordinates.get(i));
-            }
-
-            while (wordIterator.hasNext()) {
-               String word = wordIterator.next();
-
-               if (areAllWordFiltersValid(coordinates, letterTilesForCoordinates, word)) {
-                  solutions.add(createBoardSolution(word, coordinates));
-               }
-            }
+      try {
+         for (int i = 0; i < solverFutures.size(); i++) {
+            BoardSolutions threadSolutions = solverFutures.get(i).get();
+            solutions.addAll(threadSolutions.getSortedSolutions());
          }
+      } catch (InterruptedException e) {
+         return null;
+      } catch (ExecutionException e) {
+         return null;
       }
 
       return solutions.getSortedSolutions();
@@ -202,6 +200,53 @@ public class LowMemoryBoardSolver extends BoardSolver {
       }
 
       throw new IllegalStateException("Unable to find unused letter tile");
+   }
+
+   private class BoardSolverCallable implements Callable<BoardSolutions> {
+
+      private int incrementBy;
+      private int initialOffset;
+
+      private BoardSolverCallable(int incrementBy, int initialOffset) {
+         this.incrementBy = incrementBy;
+         this.initialOffset = initialOffset;
+      }
+
+      @Override
+      public BoardSolutions call() throws Exception {
+         BoardSolutions solutions = new BoardSolutions(MAX_SOLUTIONS);
+         Board board = getBoard();
+         Dictionary dictionary = getDictionary();
+
+         for (int wordSize = MIN_WORD_SIZE; wordSize < MAX_WORD_SIZE; wordSize++) {
+            PositionIterator positionIterator = new PositionIterator(wordSize);
+
+            while (positionIterator.hasNext()) {
+               List<Coordinate> coordinates = positionIterator.next();
+
+               if (!areAllPositionFiltersValid(coordinates)) {
+                  continue;
+               }
+
+               LetterTile[] letterTilesForCoordinates = new LetterTile[coordinates.size()];
+               for (int i = 0; i < coordinates.size(); i++) {
+                  letterTilesForCoordinates[i] = board.getTile(coordinates.get(i));
+               }
+
+               Iterator<String> wordIterator = dictionary.getWordsForLengthIterator(wordSize, incrementBy, initialOffset);
+
+               while (wordIterator.hasNext()) {
+                  String word = wordIterator.next();
+
+                  if (areAllWordFiltersValid(coordinates, letterTilesForCoordinates, word)) {
+                     solutions.add(createBoardSolution(word, coordinates));
+                  }
+               }
+            }
+         }
+
+         return solutions;
+      }
    }
 
 }

@@ -5,6 +5,8 @@ import org.aaron.wordscomplete.model.Board;
 import org.aaron.wordscomplete.model.BoardSolution;
 import org.aaron.wordscomplete.model.TileRack;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * User: aprobus
  * Date: 1/20/13
