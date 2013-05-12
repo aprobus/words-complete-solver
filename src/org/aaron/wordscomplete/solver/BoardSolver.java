@@ -17,4 +17,6 @@ public interface BoardSolver extends Callable<BoardSolution[]> {
 
    public static final int MAX_SOLUTIONS = 50;
 
+   void cancel();
+   boolean isCanceled();
 }

@@ -30,6 +30,8 @@ public class LowMemoryBoardSolver implements BoardSolver {
 
    private ExecutorService threadPool;
 
+   private boolean isCanceled = false;
+
    private Board board;
    private TileRack tileRack;
    private Dictionary dictionary;
@@ -68,6 +70,16 @@ public class LowMemoryBoardSolver implements BoardSolver {
       mWordFilters[0] = existingTilesFilter;
       mWordFilters[1] = tileRackFilter;
       mWordFilters[2] = secondaryWordFilter;
+   }
+
+   @Override
+   public void cancel() {
+      isCanceled = true;
+   }
+
+   @Override
+   public boolean isCanceled() {
+      return isCanceled;
    }
 
    @Override
@@ -213,10 +225,10 @@ public class LowMemoryBoardSolver implements BoardSolver {
 
       @Override
       public Void call() throws Exception {
-         for (int wordSize = MIN_WORD_SIZE; wordSize < MAX_WORD_SIZE; wordSize++) {
+         for (int wordSize = MIN_WORD_SIZE; wordSize < MAX_WORD_SIZE && !isCanceled; wordSize++) {
             PositionIterator positionIterator = new PositionIterator(wordSize);
 
-            while (positionIterator.hasNext()) {
+            while (positionIterator.hasNext() && !isCanceled) {
                List<Coordinate> coordinates = positionIterator.next();
 
                if (!areAllPositionFiltersValid(coordinates)) {
