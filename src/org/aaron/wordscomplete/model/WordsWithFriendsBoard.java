@@ -3,6 +3,8 @@ package org.aaron.wordscomplete.model;
 import org.aaron.wordscomplete.model.scoring.BoardPlacement;
 import org.aaron.wordscomplete.model.scoring.FullBoardPlacement;
 import org.aaron.wordscomplete.model.scoring.PartialBoardPlacement;
+import org.aaron.wordscomplete.util.Counter;
+import org.aaron.wordscomplete.util.HashCounter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,41 @@ public class WordsWithFriendsBoard extends Board {
       }
 
       return ScoreBonus.None;
+   }
+
+   @Override
+   protected Counter<LetterTile> getLetterCountsForBoardType() {
+      Counter<LetterTile> tileCounts = new HashCounter<LetterTile>();
+
+      tileCounts.setCount(LetterTile.newTile('a'), 9);
+      tileCounts.setCount(LetterTile.newTile('b'), 2);
+      tileCounts.setCount(LetterTile.newTile('c'), 2);
+      tileCounts.setCount(LetterTile.newTile('d'), 5);
+      tileCounts.setCount(LetterTile.newTile('e'), 13);
+      tileCounts.setCount(LetterTile.newTile('f'), 2);
+      tileCounts.setCount(LetterTile.newTile('g'), 3);
+      tileCounts.setCount(LetterTile.newTile('h'), 4);
+      tileCounts.setCount(LetterTile.newTile('i'), 8);
+      tileCounts.setCount(LetterTile.newTile('j'), 1);
+      tileCounts.setCount(LetterTile.newTile('k'), 1);
+      tileCounts.setCount(LetterTile.newTile('l'), 4);
+      tileCounts.setCount(LetterTile.newTile('m'), 2);
+      tileCounts.setCount(LetterTile.newTile('n'), 5);
+      tileCounts.setCount(LetterTile.newTile('o'), 8);
+      tileCounts.setCount(LetterTile.newTile('p'), 2);
+      tileCounts.setCount(LetterTile.newTile('q'), 1);
+      tileCounts.setCount(LetterTile.newTile('r'), 6);
+      tileCounts.setCount(LetterTile.newTile('s'), 5);
+      tileCounts.setCount(LetterTile.newTile('t'), 7);
+      tileCounts.setCount(LetterTile.newTile('u'), 4);
+      tileCounts.setCount(LetterTile.newTile('v'), 2);
+      tileCounts.setCount(LetterTile.newTile('w'), 2);
+      tileCounts.setCount(LetterTile.newTile('x'), 1);
+      tileCounts.setCount(LetterTile.newTile('y'), 2);
+      tileCounts.setCount(LetterTile.newTile('z'), 1);
+      tileCounts.setCount(LetterTile.newBlankTile(), 2);
+
+      return tileCounts;
    }
 
    private static boolean areSameOrInverse (int row1, int column1, int row2, int column2) {

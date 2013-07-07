@@ -1,6 +1,11 @@
 package org.aaron.wordscomplete.model;
 
 import org.aaron.wordscomplete.model.scoring.FullBoardPlacement;
+import org.aaron.wordscomplete.util.Counter;
+import org.aaron.wordscomplete.util.HashCounter;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * User: aprobus
@@ -97,10 +102,6 @@ public abstract class Board {
       return isEmpty;
    }
 
-   private static int toIndex(int row, int column) {
-      return row * Board.NUM_COLUMNS + column;
-   }
-
    @Override
    public String toString () {
       StringBuilder boardString = new StringBuilder();
@@ -118,6 +119,36 @@ public abstract class Board {
       }
 
       return boardString.toString();
+   }
+
+   public Counter<LetterTile> getRemainingTileCounts(TileRack... tileRacks) {
+      Counter<LetterTile> tileCounter = getLetterCountsForBoardType();
+
+      for (int row = 0; row < NUM_ROWS; row++) {
+         for (int column = 0; column < NUM_COLUMNS; column++) {
+            if (hasTile(row, column)) {
+               tileCounter.deincrement(getTile(row, column));
+            }
+         }
+      }
+
+      if (tileRacks == null) {
+         return tileCounter;
+      }
+
+      for (TileRack tileRack : tileRacks) {
+         for (LetterTile tile : tileRack.getLetterTiles()) {
+            tileCounter.deincrement(tile);
+         }
+      }
+
+      return tileCounter;
+   }
+
+   protected abstract Counter<LetterTile> getLetterCountsForBoardType();
+
+   private static int toIndex(int row, int column) {
+      return row * Board.NUM_COLUMNS + column;
    }
 
    public enum ScoreBonus {
