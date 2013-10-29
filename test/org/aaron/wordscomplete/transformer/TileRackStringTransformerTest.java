@@ -39,4 +39,19 @@ public class TileRackStringTransformerTest {
       Assert.assertEquals(new LetterTile('e', false), tiles.get(2));
    }
 
+   @Test
+   public void testToStringTransformer_EmptyTileRack() {
+      String result = TileRackStringTransformer.toString(new TileRack());
+
+      Assert.assertEquals("", result);
+   }
+
+   @Test
+   public void testFromStringTransformer_EmptyString() {
+      TileRack tileRack = TileRackStringTransformer.fromString("");
+
+      Assert.assertNotNull("Tile rack should not be null", tileRack);
+      Assert.assertEquals("Unexpected number of tiles", 0, tileRack.getLetterTiles().size());
+   }
+
 }

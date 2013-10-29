@@ -32,7 +32,7 @@ public class TileRackStringTransformer {
 
    public static TileRack fromString(String tileRackString) {
       if (tileRackString == null || tileRackString.length() == 0 || tileRackString.length() > MAX_TILES) {
-         return null;
+         return new TileRack();
       }
 
       List<LetterTile> tiles = new LinkedList<LetterTile>();
